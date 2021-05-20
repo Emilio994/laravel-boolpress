@@ -4,7 +4,7 @@
         @foreach ($posts as $post)
         <div class="post_template">
             <p>Title : {{ $post->title}}</p>
-            <p>{{ $post->content}}</p>
+            <p>Content : {{ $post->content}}</p>
             <p>Posted by : {{ $post->user->name}}</p>
             <p>Poster email : {{ $post->user->email}}</p>
         </div>
