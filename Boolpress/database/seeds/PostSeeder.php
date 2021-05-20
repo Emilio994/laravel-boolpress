@@ -19,7 +19,17 @@ class PostSeeder extends Seeder
 
             $newPost->title = $faker->words(3, true);
             $newPost->content = $faker->text(rand(50, 150));
-            $newPost->slug = Str::slug($newPost->title, '-');
+            $slug = Str::slug($newPost->title, '-');
+
+            // Sovrascrittura in caso di slug già esistente
+            $existingSlug = Post::where('slug', $slug)->first();
+            $counter = 1;
+            while($existingSlug) {
+                $slug = $slug . '-' . $counter;
+                $counter++;
+            }
+            $newPost->slug = $slug;
+            $newPost->user_id = 1; // Esempio momentaneo 
 
             $newPost->save();
         }

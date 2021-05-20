@@ -14,7 +14,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $data = Post::all();
+        $posts = [
+            'posts' => $data
+        ];
+
+        return view('guests.posts.index', $posts);
     }
 
     /**
@@ -44,9 +49,17 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
-    {
-        //
+    public function show($slug)
+    {   
+        $post = Post::where('slug', $slug)->first();
+        if(!$post) {
+            abort(404);
+        }
+        $data = [
+            'post' => $post
+        ];
+        
+        return view('guests.posts.show', $data);
     }
 
     /**
