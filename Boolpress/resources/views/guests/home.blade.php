@@ -94,6 +94,8 @@
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+
+                <h2><a href="{{route('posts.index')}}">VEDI SEZIONE POST</a></h2>
             </div>
         </div>
     </body>
