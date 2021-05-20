@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Post;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,7 +15,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $data = Category::all();
+        $categories = [
+            'categories' => $data
+        ];
+        return view('guests.categories.index', $categories);
     }
 
     /**
@@ -44,9 +49,17 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($categoryslug)
     {
-        //
+        $category = Category::where('slug', $categoryslug)->first();
+        // $id = $category->id;
+        $post = Post::where('category_id', $category->id)->get();
+
+        $data = [
+            'posts'=> $post
+        ];
+        
+        return view('guests.categories.show', $data);
     }
 
     /**

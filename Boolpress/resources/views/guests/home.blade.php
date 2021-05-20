@@ -96,6 +96,7 @@
                 </div>
 
                 <h2><a href="{{route('posts.index')}}">VEDI SEZIONE POST</a></h2>
+                <h2><a href="{{route('categories.index')}}">VEDI SEZIONE POST PER CATEGORIE</a></h2>
             </div>
         </div>
     </body>

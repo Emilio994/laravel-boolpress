@@ -30,7 +30,7 @@ class PostSeeder extends Seeder
             }
             $newPost->slug = $slug;
             $newPost->user_id = 1; // Esempio momentaneo 
-            $newPost->category_id = rand(1,2);
+            $newPost->category_id = rand(1,3);
 
             $newPost->save();
         }
