@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Post;
 use App\Tag;
 use App\Category;
+use Mockery\Undefined;
 
 class PostController extends Controller
 {
@@ -137,8 +138,12 @@ class PostController extends Controller
         
         $post->update($form_package);
 
-        $post->tags()->sync($form_package['tags']);
-
+        if(!array_key_exists('tags', $form_package)) {
+            $post->tags()->sync([]);
+        } else {
+            $post->tags()->sync($form_package['tags']);
+        }
+        
         return redirect()->route('admin.posts.index');
     }
 
@@ -148,8 +153,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(Post $post)
+    {   
+        $post->tags()->sync([]);
+        $post->delete();
+        return redirect()->route('admin.posts.index');
     }
 }
