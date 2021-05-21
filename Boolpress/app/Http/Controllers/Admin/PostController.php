@@ -56,25 +56,15 @@ class PostController extends Controller
         $newPost = new Post();
         $newPost->fill($form_package);
         
-
+        // Verifico che non esistano già titolo e slug in un post
+        // Titolo
         $titoloEsistente = Post::where('title', $newPost->title);
         $contatore = 1;
         if($titoloEsistente == true) {
             $contatore ++;
             $title = $newPost->title . '_' . $contatore;
             $newPost->title = $title;
-        }
-        
-        // Verifico che non esistano già titolo e slug in un post
-        // Titolo
-
-        // $titoloEsistente = Post::where('title', $title);
-        // $contatore = 1;
-        // while($titoloEsistente) {
-        //     $contatore ++;
-        //     $title = $title . '_' . $contatore;
-        // }
-       
+        }       
         
         // Slug
         $slug = Str::slug($newPost->title);
