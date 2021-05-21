@@ -23,6 +23,16 @@ Route::resource('/posts', 'PostController');
 
 Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function () {
         Route::get('/', 'HomeController@index')->name('admin-home');
+        Route::resource('/posts', 'Postcontroller')->names([
+            'store' => 'admin.posts.store',
+            'index' => 'admin.posts.index',
+            'create' => 'admin.posts.create',
+            'destroy' => 'admin.posts.destroy',
+            'update' => 'admin.posts.update',
+            'show' => 'admin.posts.show',
+            'edit' => 'admin.posts.edit',
+        ]);
+        
     });
 
 Route::resource('/categories', 'CategoryController');
