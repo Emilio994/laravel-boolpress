@@ -3,6 +3,8 @@
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
 use App\Post;
+use App\Category;
+use App\Tag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -35,7 +37,7 @@ class PostSeeder extends Seeder
             }
             $newPost->slug = $slug;
             $newPost->user_id = Auth::id();
-            $newPost->category_id = rand(1,3);
+            $newPost->category_id = rand(1, 3);
             $newPost->save();
         }
     }

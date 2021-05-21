@@ -39,6 +39,21 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
+                        <option value="">-- seleziona categoria --</option>
+                        <option selected="selected">{{ $post->category->name }}</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected=selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('category_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
                 <div class="form-group">
                     <p>Seleziona i tag:</p>
@@ -46,7 +61,7 @@
                         <div class="form-check @error('tags') is-invalid @enderror">
                             
                             <input name="tags[]" class="form-check-input" type="checkbox" value="{{ $tag->id }}"
-                            {{ $post->tags->contains($tag) ? 'checked=checked' : '' }}>
+                            {{ $post->tags->contains($tag) ? 'checked=checked' : '' }}> 
                             
                             <label class="form-check-label">
                                 {{ $tag->name }}

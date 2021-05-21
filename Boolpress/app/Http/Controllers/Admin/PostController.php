@@ -56,18 +56,16 @@ class PostController extends Controller
         $newPost = new Post();
         $newPost->fill($form_package);
         
-        // Verifico che non esistano già titolo e slug in un post
-        // Titolo
-        $titoloEsistente = Post::where('title', $newPost->title);
-        $contatore = 1;
-        if($titoloEsistente == true) {
-            $contatore ++;
-            $title = $newPost->title . '_' . $contatore;
-            $newPost->title = $title;
-        }       
+        // Verifico che non esista già lo slug in un post
         
         // Slug
         $slug = Str::slug($newPost->title);
+        $existingSlug = Post::where('slug', $slug)->first();
+        $counter = 1;
+        while($existingSlug) {
+            $slug = $slug . '-' . $counter;
+            $counter++;
+        }
 
         $newPost->slug = $slug; 
         $newPost->category_id =  $form_package['category_id'];   
@@ -101,8 +99,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
-    {
-        
+    {   
+        $tags = Tag::all();
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'tags', 'categories'));
     }
 
     /**
