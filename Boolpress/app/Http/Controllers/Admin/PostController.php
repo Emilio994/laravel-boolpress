@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use App\Post;
 use App\Tag;
 use App\Category;
@@ -54,10 +55,40 @@ class PostController extends Controller
         $form_package = $request->all();
         $newPost = new Post();
         $newPost->fill($form_package);
-        $slug = Str::slug($newPost->title);
-        // Verifico che non esista un post con giù quello slug
-        $newPost->save();
+        
+
+        $titoloEsistente = Post::where('title', $newPost->title);
+        $contatore = 1;
+        if($titoloEsistente == true) {
+            $contatore ++;
+            $title = $newPost->title . '_' . $contatore;
+            $newPost->title = $title;
+        }
+        
+        // Verifico che non esistano già titolo e slug in un post
+        // Titolo
+
+        // $titoloEsistente = Post::where('title', $title);
+        // $contatore = 1;
+        // while($titoloEsistente) {
+        //     $contatore ++;
+        //     $title = $title . '_' . $contatore;
+        // }
        
+        
+        // Slug
+        $slug = Str::slug($newPost->title);
+
+        $newPost->slug = $slug; 
+        $newPost->category_id =  $form_package['category_id'];   
+        $newPost->user_id = Auth::id();   
+        
+        $newPost->save();
+
+
+        $newPost->tags()->sync($form_package['tags']);
+
+        return redirect()->route('admin.posts.index');
 
     }
 
