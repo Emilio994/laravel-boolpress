@@ -69,7 +69,7 @@ class PostController extends Controller
         }
 
         $newPost->slug = $slug; 
-        $newPost->category_id =  $form_package['category_id'];   
+        $newPost->category_id = $form_package['category_id'];   
         $newPost->user_id = Auth::id();   
         
         $newPost->save();
