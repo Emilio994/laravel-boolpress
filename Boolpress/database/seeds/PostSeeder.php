@@ -37,7 +37,7 @@ class PostSeeder extends Seeder
             }
             $newPost->slug = $slug;
             $newPost->user_id = Auth::id();
-            $newPost->category_id = rand(1, 3);
+            $newPost->category_id = rand(1, 9);
             $newPost->save();
         }
     }

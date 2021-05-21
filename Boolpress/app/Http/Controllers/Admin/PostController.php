@@ -112,9 +112,34 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:50',
+            'content' => 'required'
+        ]);
+
+        $form_package = $request->all();
+        
+        // Verifico che non esista già lo slug in un post
+        
+        // Slug
+        $slug = Str::slug($form_package['title']);
+        $existingSlug = Post::where('slug', $slug)->first();
+        $counter = 1;
+        while($existingSlug) {
+            $slug = $slug . '-' . $counter;
+            $counter++;
+            $existingSlug = Post::where('slug', $slug)->first();
+        }
+
+        $form_package['slug'] = $slug;
+        
+        $post->update($form_package);
+
+        $post->tags()->sync($form_package['tags']);
+
+        return redirect()->route('admin.posts.index');
     }
 
     /**
