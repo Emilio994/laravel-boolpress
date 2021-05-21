@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Post;
 use App\Tag;
 use App\Category;
@@ -45,7 +46,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:50',
+            'content' => 'required'
+        ]);
+
+        $form_package = $request->all();
+        $newPost = new Post();
+        $newPost->fill($form_package);
+        $slug = Str::slug($newPost->title);
+        // Verifico che non esista un post con giù quello slug
+        $newPost->save();
+       
+
     }
 
     /**

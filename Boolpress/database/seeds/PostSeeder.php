@@ -17,8 +17,12 @@ class PostSeeder extends Seeder
     {
         for ($i = 0; $i < 10; $i++) {
             $newPost = new Post();
-
-            $newPost->title = $faker->words(3, true);
+            $title = $faker->words(3, true);
+            $existingTitle = Post::where('title', $title)->first();
+            while($existingTitle) {
+                $title = $faker->words(3, true);
+            }
+            $newPost->title = $title;
             $newPost->content = $faker->text(rand(50, 150));
             $slug = Str::slug($newPost->title, '-');
 
@@ -31,7 +35,7 @@ class PostSeeder extends Seeder
             }
             $newPost->slug = $slug;
             $newPost->user_id = Auth::id();
-            // $newPost->category_id = rand(1,3);
+            $newPost->category_id = rand(1,3);
             $newPost->save();
         }
     }
