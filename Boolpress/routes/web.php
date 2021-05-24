@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('guests-home');
 
 Route::resource('/posts', 'PostController');
+Route::resource('/categories', 'CategoryController');
 
 Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function () {
         Route::get('/', 'HomeController@index')->name('admin-home');
@@ -32,7 +33,17 @@ Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function (
             'show' => 'admin.posts.show',
             'edit' => 'admin.posts.edit',
         ]);
-        
+        Route::resource('/categories', 'CategoryController')->names([
+            'store' => 'admin.categories.store',
+            'index' => 'admin.categories.index',
+            'create' => 'admin.categories.create',
+            'destroy' => 'admin.categories.destroy',
+            'update' => 'admin.categories.update',
+            'show' => 'admin.categories.show',
+            'edit' => 'admin.categories.edit',
+        ]);
+        Route::get('/profile', 'HomeController@Profile')->name('admin-profile');
+        Route::post('profile/generate_token', 'HomeController@generateToken')->name('generate-token');
     });
 
-Route::resource('/categories', 'CategoryController');
+
